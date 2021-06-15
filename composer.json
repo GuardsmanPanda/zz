@@ -2,9 +2,6 @@
     "name": "dons/zz",
     "description": "Various tools for laravel",
     "type": "library",
-    "require": {
-        "spatie/laravel-permission": "dev-master"
-    },
     "license": "MIT",
     "authors": [
         {
@@ -12,5 +9,8 @@
             "email": "guardsmanpanda@gmail.com"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require": {
+        "laravel/framework": "9.x-dev"
+    }
 }
