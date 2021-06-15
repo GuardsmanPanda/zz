@@ -1,0 +1,16 @@
+{
+    "name": "dons/zz",
+    "description": "Various tools for laravel",
+    "type": "library",
+    "require": {
+        "spatie/laravel-permission": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "GuardsmanPanda",
+            "email": "guardsmanpanda@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
