@@ -5,12 +5,11 @@ namespace App\Tools;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-class Translator
-{
+class Translator {
     // Word and phrase based translation.
     public static function translate(string $key): string {
-       //dd(session()->get('language_code'));
-        return config('language.' . (session()->get('language_code') ?? 'en') .'.'. $key, $key);
+        //dd(session()->get('language_code'));
+        return config('language.' . (session()->get('language_code') ?? 'en') . '.' . $key, $key);
     }
 
     public static function setSessionLanguage(User $user): void {

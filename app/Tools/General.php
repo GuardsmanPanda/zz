@@ -4,8 +4,7 @@ namespace App\Tools;
 
 use Ausi\SlugGenerator\SlugGenerator;
 
-class General
-{
+class General {
     public static function stringToSlug(string $text): string {
         $generator = new SlugGenerator(['ignoreChars' => "'"]);
         return $generator->generate($text);
