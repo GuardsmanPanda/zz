@@ -5,7 +5,6 @@ namespace App\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Collection\Set;
-use Throwable;
 
 class GenerateModels extends Command {
     protected $signature = 'zz:models';
@@ -58,7 +57,7 @@ class GenerateModels extends Command {
                 continue; //skip system tables
             }
 
-            $headers = $this->getImports($this->output_dir . $model['class'] . '.php');
+            $headers = new Set('string');
             if (array_key_exists('deleted_at', $model['col'])) {
                 $headers->add('use Illuminate\Database\Eloquent\SoftDeletes;');
             }
@@ -148,48 +147,9 @@ class GenerateModels extends Command {
                 $content .= PHP_EOL;
             }
 
-            $content .= "    protected \$guarded = ['id','updated_at','created_at','deleted_at'];" . PHP_EOL;
-            $end = $this->getEndOfFileContent($this->output_dir . $model['class'] . '.php');
-            $content .= $end === '' ? "}" . PHP_EOL : $end;
+            $content .= "    protected \$guarded = ['id','updated_at','created_at','deleted_at'];" . PHP_EOL.  "}" . PHP_EOL;
             file_put_contents($this->output_dir . $model['class'] . '.php', $content);
             $this->output->writeln(sprintf('Model %s generated', $model['class']));
         }
-    }
-
-    private function getEndOfFileContent($location): string {
-        try {
-            $file = file_get_contents($location);
-        } catch (Throwable) {
-            return '';
-        }
-        $result = '';
-        $triggered = false;
-        $store = false;
-        foreach (explode("\n", $file) as $line) {
-            if ($store) $result .= $line . PHP_EOL;
-            if (trim($line, "\t\r\n") === '}') break;
-            if (str_contains($line, 'protected $guarded')) $triggered = true;
-            if ($triggered && str_contains($line, '];')) $store = true;
-        }
-        return $result;
-    }
-
-    private function getImports($location): Set {
-        $result = new Set('string');
-
-        try {
-            $file = file_get_contents($location);
-        } catch (Throwable) {
-            $result->add('use  Illuminate\Database\Query\Builder;');
-            $result->add('use Illuminate\Database\Eloquent\Model;');
-            return $result;
-        }
-
-        foreach (explode("\n", $file) as $line) {
-            if (str_starts_with($line, 'use')) {
-                $result->add($line);
-            }
-        }
-        return $result;
     }
 }

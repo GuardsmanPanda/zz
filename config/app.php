@@ -165,7 +165,6 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],

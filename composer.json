@@ -1,16 +1,43 @@
 {
     "name": "dons/zz",
-    "description": "Various tools for laravel",
-    "type": "library",
+    "type": "project",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
     "license": "MIT",
-    "authors": [
-        {
-            "name": "GuardsmanPanda",
-            "email": "guardsmanpanda@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
     "require": {
-        "laravel/framework": "9.x-dev"
-    }
+        "php": "^8.0",
+        "guzzlehttp/guzzle": "^7.3",
+        "laravel/framework": "^8.50",
+        "ext-openssl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Areas\\": "areas/",
+            "Integrations\\": "integrations/",
+            "Infrastructure\\": "infrastructure/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
