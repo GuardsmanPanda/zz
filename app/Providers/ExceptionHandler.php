@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Tools\Error;
 use Illuminate\Foundation\Exceptions\Handler;
+use Infrastructure\Exception\Error;
 use Throwable;
 
 class ExceptionHandler extends Handler {

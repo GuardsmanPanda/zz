@@ -2,9 +2,9 @@
 
 namespace Infrastructure\Language;
 
-use App\Tools\Req;
-use App\Tools\Error;
 use App\Models\Language;
+use Infrastructure\Exception\Error;
+use Infrastructure\Http\Req;
 
 class LanguageUtility {
     public static function getAcceptedLanguage(): int {

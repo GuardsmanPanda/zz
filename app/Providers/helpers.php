@@ -1,5 +1,6 @@
 <?php
-use App\Tools\Translator;
+
+use Infrastructure\Language\Translator;
 
 if (!function_exists('t')) {
     function t(string $key): string {

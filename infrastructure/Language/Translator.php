@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tools;
+namespace Infrastructure\Language;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;

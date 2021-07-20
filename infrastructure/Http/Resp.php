@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tools;
+namespace Infrastructure\Http;
 
-use Illuminate\Support\Facades\DB;
 use App\Providers\Middleware\Initiate;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Resp {

@@ -2,12 +2,9 @@
 
 namespace App\Providers\Middleware;
 
-use App\Tools\Req;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Infrastructure\Http\Req;
 
 class Initiate {
     public static array $headers = ['Cache-Control' => 'no-store, must-revalidate'];

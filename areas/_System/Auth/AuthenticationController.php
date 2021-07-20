@@ -1,21 +1,19 @@
 <?php
 
-namespace Areas\_System;
+namespace Areas\_System\Auth;
 
-use Carbon\Carbon;
-use App\Tools\Req;
 use App\Models\User;
-use App\Tools\Translator;
+use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Infrastructure\Language\LanguageUtility;
+use Infrastructure\Language\Translator;
 
 class AuthenticationController extends Controller {
     private string $client_id = 'q8q6jjiuc7f2ef04wmb7m653jd5ra8';
@@ -60,7 +58,7 @@ class AuthenticationController extends Controller {
         $user->twitch_id = $twitch_user['id'];
         $user->display_name = $twitch_user['display_name'];
         $user->email = $twitch_user['email'];
-        $this->updateUserAndAddRealm($user, 1);
+        $user->save();
         return $this->logUserIn($user, $r->get('state') ?? '/game');
     }
 
@@ -84,18 +82,8 @@ class AuthenticationController extends Controller {
             $user->language_id = LanguageUtility::getAcceptedLanguage();
         }
         $user->display_name = $content->display_name;
-        $this->updateUserAndAddRealm($user, 2);
-        return $this->logUserIn($user);
-    }
-
-    private function updateUserAndAddRealm(User $user, int $realm_id):void {
-        $user->country_code = Req::header('CF-IPCountry') ?? 'XX';
-        $user->last_login_at = Carbon::now();
         $user->save();
-        DB::insert("
-            INSERT INTO realm_user (realm_id, user_id) VALUES (?, ?)
-            ON CONFLICT (realm_id, user_id) DO NOTHING
-        ", [$realm_id, $user->id]);
+        return $this->logUserIn($user);
     }
 
 

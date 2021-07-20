@@ -17,7 +17,7 @@ class HttpKernel extends Kernel {
     /**
      * The application's global HTTP middleware stack.
      *
-     * These middleware are run during every request to your application.
+     * These middlewares are run during every request to your application.
      *
      * @var array
      */
@@ -49,7 +49,7 @@ class HttpKernel extends Kernel {
     /**
      * The application's route middleware.
      *
-     * These middleware may be assigned to groups or used individually.
+     * These middlewares may be assigned to a group or used individually.
      *
      * @var array
      */

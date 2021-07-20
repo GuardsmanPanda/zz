@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Tools;
+namespace Infrastructure\Exception;
 
 use App\Models\AuditError;
+use Areas\_System\Auth\Auth;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 

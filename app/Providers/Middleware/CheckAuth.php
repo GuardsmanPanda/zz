@@ -2,8 +2,8 @@
 
 namespace App\Providers\Middleware;
 
+use Areas\_System\Auth\Auth;
 use Closure;
-use App\Tools\Auth;
 
 class CheckAuth {
     public function handle($request, Closure $next) {

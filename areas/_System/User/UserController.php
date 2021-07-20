@@ -1,12 +1,12 @@
 <?php
 
-namespace Areas\_System;
+namespace Areas\_System\User;
 
-use App\Tools\Auth;
-use App\Tools\Resp;
-use App\Tools\Translator;
+use Areas\_System\Auth\Auth;
 use Illuminate\Routing\Controller;
+use Infrastructure\Http\Resp;
 use Infrastructure\Language\LanguageUtility;
+use Infrastructure\Language\Translator;
 
 class UserController extends Controller {
     public function selectLanguage(string $id): void {
