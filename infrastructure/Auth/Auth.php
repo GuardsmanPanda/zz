@@ -1,6 +1,6 @@
 <?php
 
-namespace Areas\_System\Auth;
+namespace Infrastructure\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;

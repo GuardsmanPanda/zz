@@ -2,8 +2,8 @@
 
 namespace Areas\_System\User;
 
-use Areas\_System\Auth\Auth;
 use Illuminate\Routing\Controller;
+use Infrastructure\Auth\Auth;
 use Infrastructure\Http\Resp;
 use Infrastructure\Language\LanguageUtility;
 use Infrastructure\Language\Translator;

@@ -2,9 +2,9 @@
 
 namespace App\Providers\Middleware;
 
-use Areas\_System\Auth\Auth;
 use Closure;
 use Illuminate\Http\Request;
+use Infrastructure\Auth\Auth;
 
 class Permission {
     public function handle(Request $request, Closure $next, string $permission) {

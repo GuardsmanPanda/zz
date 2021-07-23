@@ -19,17 +19,17 @@
         <a href="/" class="flex items-center ">
             <img src="/static/img/icons/top.png" class="ml-4" alt="Logo">
         </a>
-        @if(\Infrastructure\Http\Auth::has_permission('admin'))
+        @if(\Infrastructure\Auth\Auth::has_permission('admin'))
             <a href="/admin/country" class="rounded text-orange-600 font-bold border-2 border-orange-600 px-2 text-2xl leading-6 hover:bg-orange-600 hover:text-gray-50">Admin</a>
         @endif
-        @if(\Infrastructure\Http\Auth::has_permission('dev'))
+        @if(\Infrastructure\Auth\Auth::has_permission('dev'))
             <a href="/dev" class="rounded text-red-600 font-bold border-2 border-red-600 px-2 text-2xl leading-6 hover:bg-red-600 hover:text-gray-50">Dev</a>
         @endif
     </div>
 
 
     <div class="flex items-center gap-2">
-        <div class="font-bold mr-2 text-gray-400 relative group">{{\Areas\_System\Auth\Auth::user()->display_name}}
+        <div class="font-bold mr-2 text-gray-400 relative group">{{\Infrastructure\Auth\Auth::user()->display_name}}
             <div class="absolute bg-gray-800 group-hover:block hidden px-4 py-2 rounded-b-md z-40">
                 <a href="/auth/logout" class="hover:text-gray-200">
                     <div class="flex gap-2"><x-icon name="logout" class="text-gray-600"></x-icon>

@@ -21,7 +21,7 @@ class GenerateModels extends Command {
     public function handle(): void {
         $models = config('zz.database.generator_models');
 
-        $tables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'afg' AND table_type = 'BASE TABLE'");
+        $tables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE'");
         foreach ($tables as $table) {
             if (!array_key_exists($table->table_name, $models)) {
                 $models[$table->table_name] = ['class' => implode('', array_map(static function ($elem) {
@@ -51,13 +51,15 @@ class GenerateModels extends Command {
             }
         }
 
-
         foreach ($models as $table_name => $model) {
             if ($table_name === 'migrations' || str_starts_with($table_name, 'z_')) {
                 continue; //skip system tables
             }
 
             $headers = new Set('string');
+            $headers->add('use Illuminate\Database\Eloquent\Builder;');
+            $headers->add('use Illuminate\Database\Eloquent\Model;');
+
             if (array_key_exists('deleted_at', $model['col'])) {
                 $headers->add('use Illuminate\Database\Eloquent\SoftDeletes;');
             }

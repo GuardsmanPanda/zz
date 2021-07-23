@@ -3,8 +3,8 @@
 namespace Infrastructure\Exception;
 
 use App\Models\AuditError;
-use Areas\_System\Auth\Auth;
 use Illuminate\Support\Facades\Log;
+use Infrastructure\Auth\Auth;
 use Throwable;
 
 class Error {

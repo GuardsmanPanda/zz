@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Areas\_System\Auth\AuthenticationController;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Infrastructure\Auth\AuthenticationController;
 
 class RouteServiceProvider extends ServiceProvider {
     public function boot():void {
