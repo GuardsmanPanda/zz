@@ -11,11 +11,31 @@ class Req {
         return self::$r->header($name);
     }
 
-    public static function input(string $name): mixed {
-        return self::$r->input($name);
+    public static function input(string $name, mixed $default = null): mixed {
+        return self::$r->input($name, $default);
+    }
+
+    public static function method(): string {
+        return self::$r->method();
+    }
+
+    public static function path(): string {
+        return self::$r->path();
     }
 
     public static function content(): string {
         return self::$r->getContent();
+    }
+
+    public static function ip(): string {
+        return self::header('CF_CONNECTING_IP') ?? self::$r->ip();
+    }
+
+    public static function ipCountry(): string {
+        return self::header('CF_IPCOUNTRY') ?? 'XX';
+    }
+
+    public static function allJsonParameters(): array {
+        return self::$r->json()?->all() ?? [];
     }
 }

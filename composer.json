@@ -16,7 +16,10 @@
             "Areas\\": "areas/",
             "Integrations\\": "integrations/",
             "Infrastructure\\": "infrastructure/"
-        }
+        },
+        "files": [
+            "app/Providers/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

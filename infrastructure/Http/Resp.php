@@ -22,9 +22,9 @@ class Resp {
         abort($code, $message);
     }
 
-    public static function hxRefresh(string $message = 'Redirect'):void {
+    public static function hxRefresh(string $message = 'Redirect', int $code = 302):void {
         self::header('hx-refresh', 'true');
-        abort(302, $message);
+        abort($code, $message);
     }
 
     public static function header(string $name, string $value): void {

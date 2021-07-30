@@ -69,6 +69,9 @@ class GenerateModels extends Command {
             $cols = [];
             foreach ($model['col'] as $col_name => $col_val) {
                 if ($col_val[0] === 'text' || $col_val[0] === 'inet') {
+                    if (str_starts_with($col_name, 'encrypted_')) {
+                        $casts[] = [$col_name, "'encrypted'"];
+                    }
                     $cols[] = [$col_name, 'string', 3];
                 } else if ($col_val[0] === 'integer' || $col_val[0] === 'bigint') {
                     $cols[] = [$col_name, 'int', 0];
@@ -76,6 +79,11 @@ class GenerateModels extends Command {
                     $cols[] = [$col_name, 'bool', 1];
                 } else if ($col_val[0] === 'double precision') {
                     $cols[] = [$col_name, 'float', 2];
+                } else if ($col_val[0] === 'jsonb') {
+                    $headers->add('use Illuminate\Database\Eloquent\Casts\AsArrayObject;');
+                    $headers->add('use Illuminate\Database\Eloquent\Casts\ArrayObject;');
+                    $casts[] = [$col_name, "AsArrayObject::class"];
+                    $cols[] = [$col_name, 'ArrayObject', 5];
                 } else if ($col_val[0] === 'timestamp with time zone') {
                     $headers->add('use Carbon\\Carbon;');
                     $casts[] = [$col_name, "'datetime'"];

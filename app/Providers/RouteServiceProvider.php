@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Infrastructure\Auth\AuthenticationController;
 
 class RouteServiceProvider extends ServiceProvider {
     public function boot():void {
@@ -19,9 +18,10 @@ class RouteServiceProvider extends ServiceProvider {
                 });
             });
 
-            Route::middleware(['cookie', 'session'])->get('auth/payload-login', [AuthenticationController::class, 'loginWithSignedPayload']);
-            Route::middleware(['cookie', 'session'])->get('auth/login', function () { return view('_system.login'); });
-            Route::middleware(['cookie', 'session'])->get('auth/logout', [AuthenticationController::class, 'logout']);
+
+            Route::middleware(['cookie', 'session'])->group(function() {
+                Route::prefix('')->group(base_path('areas/_System/routes_public.php'));
+            });
         });
     }
 }
