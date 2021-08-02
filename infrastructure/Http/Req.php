@@ -11,7 +11,7 @@ class Req {
         return self::$r->header($name);
     }
 
-    public static function input(string $name, mixed $default = null): mixed {
+    public static function input(string $name = null, mixed $default = null): mixed {
         return self::$r->input($name, $default);
     }
 
@@ -35,7 +35,8 @@ class Req {
         return self::header('CF_IPCOUNTRY') ?? 'XX';
     }
 
-    public static function allJsonParameters(): array {
-        return self::$r->json()?->all() ?? [];
+    public static function isWriteRequest(): bool {
+        $m = self::$r->method();
+        return $m !== 'GET' && $m !== 'HEAD';
     }
 }

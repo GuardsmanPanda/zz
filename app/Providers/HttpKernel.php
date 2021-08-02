@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Providers\Middleware\Idempotency;
 use App\Providers\Middleware\Initiate;
 use App\Providers\Middleware\CheckAuth;
 use App\Providers\Middleware\HtmxBuster;
@@ -25,6 +26,7 @@ class HttpKernel extends Kernel {
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
         Initiate::class,
+        Idempotency::class,
     ];
 
     /**
@@ -46,13 +48,19 @@ class HttpKernel extends Kernel {
         ],
     ];
 
-    /**
-     * The application's route middleware.
-     *
-     * These middlewares may be assigned to a group or used individually.
-     *
-     * @var array
-     */
+    protected $middlewarePriority = [
+        TrimStrings::class,
+        ConvertEmptyStringsToNull::class,
+        AddQueuedCookiesToResponse::class,
+        StartSession::class,
+        Initiate::class,
+        CheckAuth::class,
+        Permission::class,
+        Idempotency::class,
+        HtmxBuster::class,
+        SubstituteBindings::class,
+    ];
+
     protected $routeMiddleware = [
         'cookie' => AddQueuedCookiesToResponse::class,
         'permission' => Permission::class,
