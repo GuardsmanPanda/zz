@@ -8,9 +8,7 @@ use Infrastructure\Auth\Auth;
 
 class Permission {
     public function handle(Request $request, Closure $next, string $permission) {
-        if (!Auth::has_permission($permission)) {
-            abort(403, 'No valid permission for route.');
-        }
+        abort_unless(Auth::has_permission($permission), 403, 'No valid permission for route.');
         return $next($request);
     }
 }

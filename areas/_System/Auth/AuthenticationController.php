@@ -32,20 +32,15 @@ class AuthenticationController extends Controller {
         $url .= "&code=" . $r->get('code');
 
         $resp = Http::post($url);
-        if ($resp->failed()) {
-            Log::warning($resp->body());
-            abort(500, 'Failure to log in.');
-        }
+        abort_if($resp->failed(), 500, 'Failure to log in.');
 
         $twitch_token =$resp->json();
         $token = $twitch_token['access_token'];
         $resp = Http::withToken($token)
             ->withHeaders(['Client-ID' => $this->client_id])
             ->get("https://api.twitch.tv/helix/users");
-        if ($resp->failed()) {
-            Log::warning($resp->body());
-            abort(500, 'Getting Twitch ID Failed.');
-        }
+        abort_if($resp->failed(), 500, 'Getting Twitch ID Failed.');
+
         $twitch_user = $resp->json()['data'][0];
         $user = User::firstWhere('twitch_id', '=', $twitch_user['id']);
         if ($user === null) {
@@ -67,13 +62,10 @@ class AuthenticationController extends Controller {
         $p = str_replace(' ', '+', $r->get('payload'));
         $s = base64_decode(str_replace(' ', '+', $r->get('signature')));
         $rr = openssl_verify($p, $s, File::get(storage_path('app/gnx_public_key.pem')), "sha256WithRSAEncryption");
-        if ($rr !== 1) {
-            abort(403, 'Invalid signature');
-        }
+        abort_if($rr !== 1, 403, 'Invalid signature');
+
         $content = json_decode(base64_decode($p), false, 512, JSON_THROW_ON_ERROR);
-        if (Carbon::parse($content->timestamp) < Carbon::now()->subMinutes(2)) {
-            abort(403, 'Signature too old');
-        }
+        abort_if(Carbon::parse($content->timestamp) < Carbon::now()->subMinutes(2), 403, 'Signature too old');
         $user = User::firstWhere('work_email', '=', $content->email);
         if ($user === null) {
             $user = new User();

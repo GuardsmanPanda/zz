@@ -85,13 +85,13 @@ class GenerateModels extends Command {
                     $casts[] = [$col_name, "AsArrayObject::class"];
                     $cols[] = [$col_name, 'ArrayObject', 5];
                 } else if ($col_val[0] === 'timestamp with time zone') {
-                    $headers->add('use Carbon\\Carbon;');
-                    $casts[] = [$col_name, "'datetime'"];
-                    $cols[] = [$col_name, 'Carbon', 10];
+                    $headers->add('use Carbon\\CarbonInterface;');
+                    $casts[] = [$col_name, "'immutable_datetime'"];
+                    $cols[] = [$col_name, 'CarbonInterface', 10];
                 } else if ($col_val[0] === 'date') {
-                    $headers->add('use Carbon\\Carbon;');
-                    $casts[] = [$col_name, "'date'"];
-                    $cols[] = [$col_name, 'Carbon', 9];
+                    $headers->add('use Carbon\\CarbonInterface;');
+                    $casts[] = [$col_name, "'immutable_date '"];
+                    $cols[] = [$col_name, 'CarbonInterface', 9];
                 } else {
                     $this->output->writeln("***Did not understand: " . $col_val[0] . ' ' . $col_val[1]);
                 }
@@ -110,14 +110,16 @@ class GenerateModels extends Command {
 
             $content .= " * @method static $class_name find(int \$id, array \$columns = ['*'])" . PHP_EOL;
             $content .= " * @method static $class_name findOrFail(int \$id, array \$columns = ['*'])" . PHP_EOL;
-            $content .= " * @method static $class_name firstOrCreate(array \$filter, array \$values)" . PHP_EOL;
+            $content .= " * @method static $class_name findOrNew(int \$id, array \$columns = ['*'])" . PHP_EOL;
             $content .= " * @method static $class_name create(array \$values)" . PHP_EOL;
+            $content .= " * @method static $class_name firstOrCreate(array \$filter, array \$values)" . PHP_EOL;
             $content .= " * @method static $class_name firstWhere(string \$column, string \$operator = null, string \$value = null, string \$boolean = 'and')" . PHP_EOL;
-            $content .= " * @method static Builder where(string \$column, string \$operator = null, string \$value = null, string \$boolean = 'and')" . PHP_EOL;
-            $content .= " * @method static Builder whereIn(string \$column, \$values, \$boolean = 'and', \$not = false)" . PHP_EOL;
-            $content .= " * @method static Builder whereNotNull(string|array \$columns, bool \$boolean = 'and')" . PHP_EOL;
-            $content .= " * @method static Builder orderBy(string \$column, string \$direction = 'asc')" . PHP_EOL;
-            $content .= " * @method static Builder with(array|string  \$relations)" . PHP_EOL;
+            $content .= " * @method static Builder|$class_name lockForUpdate()" . PHP_EOL;
+            $content .= " * @method static Builder|$class_name where(string \$column, string \$operator = null, string \$value = null, string \$boolean = 'and')" . PHP_EOL;
+            $content .= " * @method static Builder|$class_name whereIn(string \$column, \$values, \$boolean = 'and', \$not = false)" . PHP_EOL;
+            $content .= " * @method static Builder|$class_name whereNotNull(string|array \$columns, bool \$boolean = 'and')" . PHP_EOL;
+            $content .= " * @method static Builder|$class_name orderBy(string \$column, string \$direction = 'asc')" . PHP_EOL;
+            $content .= " * @method static Builder|$class_name with(array|string  \$relations)" . PHP_EOL;
             $content .= " *" . PHP_EOL;
 
             usort($cols, static function ($a, $b) {
@@ -137,7 +139,7 @@ class GenerateModels extends Command {
                 $content .= "    use SoftDeletes;" . PHP_EOL . PHP_EOL;
             }
             $content .= "    protected \$table = '$table_name';" . PHP_EOL;
-            $content .= "    protected \$dateFormat = 'Y-m-d H:i:s P';" . PHP_EOL;
+            $content .= "    protected \$dateFormat = 'Y-m-d H:i:sO';" . PHP_EOL;
             if ($model['key'] !== 'id') {
                 $content .= "    protected \$primaryKey = '" . $model['key'] . "';" . PHP_EOL;
                 $content .= "    protected \$keyType = 'string';" . PHP_EOL;
