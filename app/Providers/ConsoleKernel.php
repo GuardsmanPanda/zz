@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use App\Commands\Translate;
+use App\Commands\DeployTranslations;
+use App\Commands\GenerateTranslations;
 use App\Commands\GenerateModels;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel;
@@ -14,8 +15,9 @@ class ConsoleKernel extends Kernel {
      * @var array
      */
     protected $commands = [
+        DeployTranslations::class,
         GenerateModels::class,
-        Translate::class,
+        GenerateTranslations::class,
     ];
 
     /**

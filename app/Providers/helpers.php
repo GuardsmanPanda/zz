@@ -1,15 +1,17 @@
 <?php
 
+use Illuminate\Support\Str;
 use Infrastructure\Language\Translator;
 
-if (!function_exists('t')) {
-    function t(string $key): string {
-        return Translator::translate($key);
-    }
+function t(string $key): string {
+    return Translator::translate($key);
 }
 
-if (!function_exists('csrf_header')) {
-    function csrf_header(): string {
-        return "headers: {'X-CSRF-TOKEN': '".csrf_token()."' }";
-    }
+function idempotency(string $value = null): string {
+    return '<input hidden name="_idempotency" value="'. ($value ?? Str::random()) .'">';
 }
+
+function csrf_header(): string {
+    return "headers: {'X-CSRF-TOKEN': '".csrf_token()."' }";
+}
+

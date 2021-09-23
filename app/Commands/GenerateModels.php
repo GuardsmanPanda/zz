@@ -68,7 +68,7 @@ class GenerateModels extends Command {
             $casts = [];
             $cols = [];
             foreach ($model['col'] as $col_name => $col_val) {
-                if ($col_val[0] === 'text' || $col_val[0] === 'inet') {
+                if ($col_val[0] === 'text' || $col_val[0] === 'inet' || $col_val[0] === 'uuid') {
                     if (str_starts_with($col_name, 'encrypted_')) {
                         $casts[] = [$col_name, "'encrypted'"];
                     }
@@ -123,7 +123,9 @@ class GenerateModels extends Command {
             $content .= " *" . PHP_EOL;
 
             usort($cols, static function ($a, $b) {
-                if ($a[2] === $b[2]) return strlen($a[0]) - strlen($b[0]);
+                if ($a[2] === $b[2]) {
+                    return strlen($a[0]) - strlen($b[0]) === 0 ? strcmp($a[0], $b[0]) : strlen($a[0]) - strlen($b[0]);
+                }
                 return $a[2] - $b[2];
             });
             foreach ($cols as $col) {
